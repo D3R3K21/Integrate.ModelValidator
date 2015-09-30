@@ -25,16 +25,21 @@ namespace Integrate.ModelValidator
             var validationResponse = model.Validate();
 
             var allValidCheck = validationResponse.All(p => p.IsValid);
+
             var finalResponse = new List<ValidatorReturnObject>();
 
             if (!allValidCheck)
             {
                 finalResponse = validationResponse.Where(p => !p.IsValid).ToList();
             }
-            var output = JsonConvert.SerializeObject(new { All = validationResponse, Failed = finalResponse }, Formatting.Indented);
+            var output = JsonConvert.SerializeObject(new { AllProperties = validationResponse, FailedProperties = finalResponse }, Formatting.Indented);
 
             Console.Out.WriteLine(output);
             Console.Read();
+
+
         }
+
+
     }
 }

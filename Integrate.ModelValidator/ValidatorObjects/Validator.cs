@@ -74,7 +74,7 @@ namespace Integrate.ModelValidator
 
             return returnList;
         }
-        
+
         private static List<Type> GetDerivedTypes(Assembly assembly, Type baseType)
         {
             return assembly.GetTypes().Where(t => baseType.IsAssignableFrom(t) && t != baseType && !t.Name.Contains("`1")).ToList();
