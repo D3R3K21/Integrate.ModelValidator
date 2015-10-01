@@ -1,8 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Integrate.ModelValidator
 {
-
+    [Serializable]
     public class ValidateRegexAttribute : IntegrateAttribute
     {
         private readonly Regex _regex;
@@ -27,7 +29,8 @@ namespace Integrate.ModelValidator
             {
                 return false;
             }
-            return _regex.Match(val as string).Success;
+            return _regex.Match((val as string).Trim()).Success;
         }
+
     }
 }

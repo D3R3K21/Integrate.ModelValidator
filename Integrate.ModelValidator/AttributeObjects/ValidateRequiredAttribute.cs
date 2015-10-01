@@ -1,5 +1,7 @@
-﻿namespace Integrate.ModelValidator
+﻿using System;
+namespace Integrate.ModelValidator
 {
+    [Serializable]
     public class ValidateRequiredAttribute : IntegrateAttribute
     {
         private ValidateRequiredAttribute()
@@ -20,7 +22,7 @@
 
             if (val is string)
             {
-                return val as string != string.Empty;
+                return (val as string).Trim() != string.Empty;
 
             }
             return val != null;

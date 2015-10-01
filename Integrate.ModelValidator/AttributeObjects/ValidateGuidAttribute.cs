@@ -2,6 +2,7 @@
 
 namespace Integrate.ModelValidator
 {
+    [Serializable]
     public class ValidateGuidAttribute : IntegrateAttribute
     {
 

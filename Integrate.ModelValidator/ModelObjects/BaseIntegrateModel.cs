@@ -9,5 +9,6 @@ namespace Integrate.ModelValidator
         protected BaseIntegrateModel()
         {
         }
+
     }
 }

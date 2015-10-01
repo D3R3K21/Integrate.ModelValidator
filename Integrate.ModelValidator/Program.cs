@@ -11,13 +11,16 @@ namespace Integrate.ModelValidator
     {
         static void Main(string[] args)
         {
+            //validator can be initialized in IntegrateNancyBootstrapper
             Validator.Initialize();
             var model = new UserModel
             {
                 Id = Guid.NewGuid(),
-                UserName = "Some User1"
+                UserName = "JimmyJohn1",
+                SomeBoolProperty = null,
+                PhoneNumber = "1234567894"
             };
-
+            
             //Validate extension method inside of validator, accepts 'this BaseIntegrateModel',
             //calls the validate method on each individual custom attribute specefied on the property and passes in the value of that property,
             //since we are using reflection the Validate method does not need to be declared on Interface, 
