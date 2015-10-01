@@ -5,9 +5,12 @@
         private ValidateRequiredAttribute()
         {
         }
-
-        public ValidateRequiredAttribute(string error)
-            : base(error)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="errorMessage">The error to return if validation is not successful</param>
+        public ValidateRequiredAttribute(string errorMessage)
+            : base(errorMessage)
         {
         }
 

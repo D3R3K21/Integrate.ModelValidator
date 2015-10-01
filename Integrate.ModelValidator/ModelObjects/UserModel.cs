@@ -6,7 +6,6 @@ namespace Integrate.ModelValidator
     {
         public UserModel()
         {
-            DerivedModel = this;
         }
 
 

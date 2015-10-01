@@ -12,10 +12,10 @@ namespace Integrate.ModelValidator
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="error">The error to return if not successful</param>
+        /// <param name="errorMessage">The error to return if not successful</param>
         /// <param name="regexPattern">The pattern to check the property against</param>
-        public ValidateRegexAttribute(string error, string regexPattern)
-            : base(error)
+        public ValidateRegexAttribute(string errorMessage, string regexPattern)
+            : base(errorMessage)
         {
             _regex = new Regex(@regexPattern);
         }

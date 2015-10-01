@@ -1,18 +1,21 @@
-﻿namespace Integrate.ModelValidator
+﻿using System;
+
+namespace Integrate.ModelValidator
 {
     public class ValidateGuidAttribute : IntegrateAttribute
     {
 
-        public ValidateGuidAttribute()
+        private ValidateGuidAttribute()
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="errorMessage">The error to return if validation is not successful</param>
         public ValidateGuidAttribute(string errorMessage)
             : base(errorMessage)
         {
         }
-
-
 
         public override bool Valitade<T>(T val)
         {

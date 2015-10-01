@@ -50,8 +50,7 @@ namespace Integrate.ModelValidator
         {
 
             var returnList = new List<ValidatorReturnObject>();
-            var modelType = model.GetType();
-            var modelProperties = _propertyMappings[modelType];
+            var modelProperties = _propertyMappings[model.DerivedType];
 
 
             var propinfolist = modelProperties.Select(p => p.Key).ToList();
