@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Integrate.ModelValidator
+namespace TestModule
 {
     public class UserModel : IntegrateModel<UserModel>
     {

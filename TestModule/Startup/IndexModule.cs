@@ -2,7 +2,6 @@
 using System.Linq;
 using Nancy;
 using Nancy.ModelBinding;
-using Integrate.ModelValidator;
 
 namespace TestModule
 {
@@ -10,12 +9,8 @@ namespace TestModule
     {
         public object BindObject<T>(T obj) where T : BaseIntegrateModel
         {
-            var methodInfo = Validator.BindModel(obj);
-
-            var returnedModel = methodInfo.Invoke(methodInfo.DeclaringType, new object[] { this });
-
-            var convertedModel = Convert.ChangeType(returnedModel, obj.DerivedType);
-
+            this.CreateDelegate(obj);
+            var convertedModel = this.BindModel(obj);
             return convertedModel;
 
         }
@@ -28,9 +23,15 @@ namespace TestModule
                 //TODO: map endpoints to modeltypes, if no model exists for the endpoint, return null and continue
                 Response response = null;
                 //TODO: map model types to Func<Type, BaseIntegrateModel>
-                var modelObject = new UserModel();//TODO: create ModelTypeAttribute for endpoints, cache model types for each one in validator
-
-                var model = BindObject(modelObject);
+                var obj = new UserModel()
+                {
+                    UserName = "some name"
+                };
+                //TODO: create ModelTypeAttribute for endpoints, cache model types for each one in validator
+                this.CreateDelegate(obj);
+                var convertedModel = this.BindModel(obj);
+               
+                var model = BindObject(obj);
                 var validationResponse = ((BaseIntegrateModel)model).Validate();
                 var allValidCheck = validationResponse.All(p => p.IsValid);
 

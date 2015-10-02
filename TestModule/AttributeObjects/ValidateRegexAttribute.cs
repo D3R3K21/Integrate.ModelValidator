@@ -2,9 +2,8 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Integrate.ModelValidator
+namespace TestModule
 {
-    [Serializable]
     public class ValidateRegexAttribute : IntegrateAttribute
     {
         private readonly Regex _regex;

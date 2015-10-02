@@ -1,4 +1,4 @@
-﻿namespace Integrate.ModelValidator
+﻿namespace TestModule
 {
     public class ValidatorReturnObject
     {

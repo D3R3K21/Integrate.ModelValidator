@@ -1,12 +1,11 @@
-﻿using Integrate.ModelValidator;
-using Nancy;
+﻿using Nancy;
 namespace TestModule
 {
 
 
     public class Bootstrapper : DefaultNancyBootstrapper
     {
-        public Bootstrapper() 
+        public Bootstrapper()
         {
             Validator.Initialize();
         }

@@ -1,7 +1,6 @@
 ﻿using System;
-namespace Integrate.ModelValidator
+namespace TestModule
 {
-    [Serializable]
     public class ValidateRequiredAttribute : IntegrateAttribute
     {
         private ValidateRequiredAttribute()

@@ -6,11 +6,17 @@ using System.Reflection;
 using Nancy;
 using Nancy.ModelBinding;
 
-namespace Integrate.ModelValidator
+namespace TestModule
 {
     public static class Validator
     {
         private static Dictionary<Type, Dictionary<PropertyInfo, List<IntegrateAttribute>>> _propertyMappings;
+        private static Dictionary<Type, Func<NancyModule, BaseIntegrateModel, object>> _bindingMappings;
+
+
+        public static List<Type> ModelTypes;
+        public static MethodInfo BindMethodInfo { get; set; }
+        public static MethodInfo GenericMethodInfo { get; set; }
 
         public static void Initialize()
         {
@@ -18,9 +24,15 @@ namespace Integrate.ModelValidator
 
         static Validator()
         {
+            BindMethodInfo = typeof(ModuleExtensions).GetMethods().First(p => p.Name == "Bind"
+                && p.IsGenericMethod
+                && p.GetParameters().Length == 1);
+
             _propertyMappings = new Dictionary<Type, Dictionary<PropertyInfo, List<IntegrateAttribute>>>();
+            _bindingMappings = new Dictionary<Type, Func<NancyModule, BaseIntegrateModel, object>>();
+
             GetModelMappings();
-            SetMethodInfo();
+            ModelTypes = _propertyMappings.Select(p => p.Key).ToList();
         }
 
 
@@ -48,39 +60,22 @@ namespace Integrate.ModelValidator
                 _propertyMappings.Add(modelType, dictionary);
             });
         }
-        #region CreateGenericMethodInfo
-
-        public static MethodInfo BindMethodInfo { get; set; }
-        public static MethodInfo GenericMethodInfo { get; set; }
-        private static void SetMethodInfo()
+        public static dynamic BindModel(this NancyModule mod, BaseIntegrateModel model)
         {
-            BindMethodInfo = typeof(ModuleExtensions).GetMethods().First(p => p.Name == "Bind"
-                && p.IsGenericMethod
-                && p.GetParameters().Length == 1);
+            return _bindingMappings[model.DerivedType](mod, model);
+
         }
 
-        public static MethodInfo BindModel(BaseIntegrateModel model)
+        public static void CreateDelegate(this NancyModule mod, BaseIntegrateModel model)
         {
             GenericMethodInfo = BindMethodInfo.MakeGenericMethod(model.DerivedType);
-            MapMethods();
-            return GenericMethodInfo;
+
+            Expression<Func<NancyModule, BaseIntegrateModel, object>> func = (o, m) =>
+            Convert.ChangeType(GenericMethodInfo.Invoke(BindMethodInfo.DeclaringType, new object[] { o }), m.DerivedType);
+
+            _bindingMappings.Add(model.DerivedType, func.Compile());
+
         }
-
-        private static void MapMethods()
-        {
-            var input = Expression.Parameter(typeof(Type), "input");
-            var methodInfo = GenericMethodInfo;
-            var result = Expression.Lambda<Func<object, BaseIntegrateModel>>(Expression.Call(null, methodInfo),input);
-            var final = result.Compile();
-            Console.Out.WriteLine();
-        }
-
-        #endregion
-
-
-
-
-
 
         public static List<ValidatorReturnObject> Validate(this BaseIntegrateModel model)
         {
