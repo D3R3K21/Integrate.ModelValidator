@@ -20,7 +20,7 @@ namespace Integrate.ModelValidator
 
         public override bool Valitade<T>(T val)
         {
-            return true;
+            return new Guid(val.ToString()) != default(Guid);
         }
     }
 }

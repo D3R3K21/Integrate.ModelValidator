@@ -25,11 +25,18 @@ namespace Integrate.ModelValidator
 
         public override bool Valitade<T>(T val)
         {
-            if (!(val is string))
+            if (val != null && !(val is string))
             {
                 return false;
             }
-            return _regex.Match((val as string).Trim()).Success;
+            else if (val == null)
+            {
+                return _regex.Match(string.Empty.Trim()).Success;
+            }
+            else
+            {
+                return _regex.Match((val as string).Trim()).Success;
+            }
         }
 
     }

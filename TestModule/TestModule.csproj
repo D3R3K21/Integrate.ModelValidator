@@ -39,6 +39,10 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Integrate.ModelValidator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Integrate.ModelValidator\obj\Debug\Integrate.ModelValidator.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.1.3.0\lib\net40\Nancy.dll</HintPath>
       <Private>True</Private>
@@ -64,12 +68,6 @@
     <None Include="Views\index.sshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Integrate.ModelValidator\Integrate.ModelValidator.csproj">
-      <Project>{5d4172d1-922d-436d-bf75-fe9e81c6f22c}</Project>
-      <Name>Integrate.ModelValidator</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\nancy-logo.png">

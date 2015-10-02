@@ -16,6 +16,5 @@ namespace Integrate.ModelValidator
         public abstract bool Valitade<T>(T val);
 
         public string ErrorMessage { get; protected set; }
-
     }
 }

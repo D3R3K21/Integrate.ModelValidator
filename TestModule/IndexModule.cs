@@ -1,48 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Nancy;
 using Nancy.ModelBinding;
-using System.Text.RegularExpressions;
-using Nancy.Routing;
-using System.Text;
+using Integrate.ModelValidator;
+
 namespace TestModule
 {
-
     public class IndexModule : NancyModule
     {
+        public object BindObject<T>(T obj) where T : BaseIntegrateModel
+        {
+            var methodInfo = Validator.BindModel(obj);
+
+            var returnedModel = methodInfo.Invoke(methodInfo.DeclaringType, new object[] { this });
+
+            var convertedModel = Convert.ChangeType(returnedModel, obj.DerivedType);
+
+            return convertedModel;
+
+        }
+
         public IndexModule()
             : base("/")
         {
             Before += s =>
             {
-                var routes = this.Routes.Where(z => z.Description.Method == this.Request.Method).ToList();
-                var model = this.Bind();
-                var sb = new StringBuilder();
+                //TODO: map endpoints to modeltypes, if no model exists for the endpoint, return null and continue
+                Response response = null;
+                //TODO: map model types to Func<Type, BaseIntegrateModel>
+                var modelObject = new UserModel();//TODO: create ModelTypeAttribute for endpoints, cache model types for each one in validator
 
-                foreach (Route route in routes)
+                var model = BindObject(modelObject);
+                var validationResponse = ((BaseIntegrateModel)model).Validate();
+                var allValidCheck = validationResponse.All(p => p.IsValid);
+
+                if (!allValidCheck)
                 {
-                    var path = route.Description.Path;
-                    var pathParts = path.Split(new[]{'/'}, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                    pathParts.ForEach(p =>
-                        {
-                            var regex = new Regex(@"^{[A-Za-z]+}$");
-                            var match = regex.Match(p).Success;
-                            Console.Out.WriteLine();
-
-                        });
-
-
-                    Regex reg = new Regex(path);
-                    var d = reg.Match(this.Request.Path);
-                    Console.Out.WriteLine();
+                    response = Response.AsJson(new { AllProperties = validationResponse, FailedProperties = validationResponse.Where(p => !p.IsValid).ToList() });
                 }
 
 
-                return null;
+                return response;
             };
 
+            Get["/{id}"] = parameters =>
+            {
+                var model = this.Bind();
+                var x = this.Routes;
+                return View["index"];
+            };
+            Get["/value"] = parameters =>
+            {
+                var model = this.Bind();
+                var x = this.Routes;
+                return View["index"];
+            };
             Get["/"] = parameters =>
             {
                 var f = this.Routes.Where(x =>
@@ -51,12 +63,7 @@ namespace TestModule
                     }).ToList();
                 return View["index"];
             };
-            Get["/{id}"] = parameters =>
-            {
-                var model = this.Bind();
-                var x = this.Routes;
-                return View["index"];
-            };
+
             Post["/{id}"] = parameters =>
             {
                 var model = this.Bind();

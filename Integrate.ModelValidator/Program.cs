@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -9,8 +10,48 @@ namespace Integrate.ModelValidator
 {
     class Program
     {
+        public class TestType
+        {
+            public string GetName() { return "hello world!"; }
+        }
+
+        public static string TestMethod2()
+        {
+            object o = new TestType();
+
+            var input = Expression.Parameter(typeof(object), "input");
+            var method = o.GetType().GetMethod("GetName",
+              System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            //you should check for null *and* make sure the return type is string here.
+
+            //now build a dynamic bit of code that does this:
+            //(object o) => ((TestType)o).GetName();
+            Func<object, string> result = Expression.Lambda<Func<object, string>>(
+              Expression.Call(Expression.Convert(input, o.GetType()), method), input).Compile();
+
+            return result(o);
+        }
         static void Main(string[] args)
         {
+
+
+            var u = TestMethod2();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             //validator can be initialized in IntegrateNancyBootstrapper
             Validator.Initialize();
             var model = new UserModel

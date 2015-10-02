@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using Nancy.ModelBinding;
 
 namespace Integrate.ModelValidator
 {
@@ -17,6 +19,7 @@ namespace Integrate.ModelValidator
         {
             _propertyMappings = new Dictionary<Type, Dictionary<PropertyInfo, List<IntegrateAttribute>>>();
             GetModelMappings();
+            SetMethodInfo();
         }
 
 
@@ -44,6 +47,38 @@ namespace Integrate.ModelValidator
                 _propertyMappings.Add(modelType, dictionary);
             });
         }
+        #region CreateGenericMethodInfo
+
+        public static MethodInfo BindMethodInfo { get; set; }
+        public static MethodInfo GenericMethodInfo { get; set; }
+        private static void SetMethodInfo()
+        {
+            BindMethodInfo = typeof(ModuleExtensions).GetMethods().First(p => p.Name == "Bind"
+                && p.IsGenericMethod
+                && p.GetParameters().Length == 1);
+        }
+
+        public static MethodInfo BindModel(BaseIntegrateModel model)
+        {
+            GenericMethodInfo = BindMethodInfo.MakeGenericMethod(model.DerivedType);
+            MapMethods();
+            return GenericMethodInfo;
+        }
+
+        private static void MapMethods()
+        {
+            var input = Expression.Parameter(typeof(Type), "input");
+            var methodInfo = GenericMethodInfo;
+            var result = Expression.Lambda<Func<object, BaseIntegrateModel>>(Expression.Call(Expression.Convert(input, typeof(Type)), methodInfo), input);
+            var final = result.Compile();
+            Console.Out.WriteLine();
+        }
+
+        #endregion
+
+
+
+
 
 
         public static List<ValidatorReturnObject> Validate(this BaseIntegrateModel model)
@@ -58,9 +93,11 @@ namespace Integrate.ModelValidator
             propinfolist.ForEach(p =>
             {
                 var propertyValue = p.GetValue(model, null);
+
                 var attList = modelProperties[p];
                 attList.ForEach(x =>
                 {
+
                     returnList.Add(new ValidatorReturnObject
                     {
                         PropertyName = p.Name,
@@ -73,6 +110,7 @@ namespace Integrate.ModelValidator
 
             return returnList;
         }
+
 
         private static List<Type> GetDerivedTypes(Assembly assembly, Type baseType)
         {
