@@ -2,36 +2,32 @@
 using System.Linq;
 using Nancy;
 using Nancy.ModelBinding;
-using Integrate.ModelValidator;
+using Nancy.ModelValidation;
 
 namespace TestModule
 {
     public class IndexModule : NancyModule
     {
-        public object BindObject<T>(T obj) where T : BaseIntegrateModel
-        {
-            var methodInfo = Validator.BindModel(obj);
-
-            var returnedModel = methodInfo.Invoke(methodInfo.DeclaringType, new object[] { this });
-
-            var convertedModel = Convert.ChangeType(returnedModel, obj.DerivedType);
-
-            return convertedModel;
-
-        }
 
         public IndexModule()
             : base("/")
         {
-            Before += s =>
+            Before += ctx =>
             {
-                //TODO: map endpoints to modeltypes, if no model exists for the endpoint, return null and continue
+                //TODO: overload RouteBuilder in Int.Nancy to accept model type, if no model exists for the endpoint, return null and continue
                 Response response = null;
-                //TODO: map model types to Func<Type, BaseIntegrateModel>
-                var modelObject = new UserModel();//TODO: create ModelTypeAttribute for endpoints, cache model types for each one in validator
+                var resolvedRoute = ctx.ResolvedRoute;
+                var modelName = resolvedRoute.Description.Name;
+                if (string.IsNullOrEmpty(modelName)) return response;
 
-                var model = BindObject(modelObject);
-                var validationResponse = ((BaseIntegrateModel)model).Validate();
+                //TODO: change BindModel to accept type as arg instead of instance
+                var modelType = Type.GetType(modelName);
+                var modelObject = (NancyValidatorModel)Activator.CreateInstance(modelType);
+                var model = this.BindModel(modelObject);
+
+
+
+                var validationResponse = ((NancyValidatorModel)model).Validate();
                 var allValidCheck = validationResponse.All(p => p.IsValid);
 
                 if (!allValidCheck)
@@ -43,7 +39,7 @@ namespace TestModule
                 return response;
             };
 
-            Get["/{id}"] = parameters =>
+            Get["TestModule.UserModel", "/{id}"] = parameters =>
             {
                 var model = this.Bind();
                 var x = this.Routes;
@@ -64,7 +60,7 @@ namespace TestModule
                 return View["index"];
             };
 
-            Post["/{id}"] = parameters =>
+            Post["TestModule.UserModel", "/{id}"] = parameters =>
             {
                 var model = this.Bind();
                 var x = this.Routes;
