@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModule", "TestModule\Te
 		{4005118B-250F-46B9-8DE7-E53220886DC9} = {4005118B-250F-46B9-8DE7-E53220886DC9}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.ModelValidation", "..\Nancy.ModelValidation\Nancy.ModelValidation\Nancy.ModelValidation.csproj", "{4005118B-250F-46B9-8DE7-E53220886DC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.ModelValidation", "Nancy.ModelValidation\Nancy.ModelValidation.csproj", "{4005118B-250F-46B9-8DE7-E53220886DC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

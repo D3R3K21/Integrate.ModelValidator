@@ -47,9 +47,6 @@
       <HintPath>..\packages\Nancy.Hosting.Self.1.3.0\lib\net40\Nancy.Hosting.Self.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nancy.ModelValidation">
-      <HintPath>..\..\Nancy.ModelValidation\Nancy.ModelValidation\bin\Debug\Nancy.ModelValidation.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -73,6 +70,12 @@
     <Content Include="Content\nancy-logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nancy.ModelValidation\Nancy.ModelValidation.csproj">
+      <Project>{4005118b-250f-46b9-8de7-e53220886dc9}</Project>
+      <Name>Nancy.ModelValidation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

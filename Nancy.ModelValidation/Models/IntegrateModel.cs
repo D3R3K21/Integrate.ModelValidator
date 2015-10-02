@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Integrate.ModelValidator
+namespace Nancy.ModelValidation
 {
-    public class IntegrateModel<T> : BaseIntegrateModel
+    public class IntegrateModel<T> : NancyValidatorModel
     {
         public IntegrateModel()
         {

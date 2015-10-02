@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace Integrate.ModelValidator
+namespace TestModule
 {
-    public abstract class IntegrateAttribute : Attribute
+    public abstract class ValidateAttribute : Attribute
     {
-        protected IntegrateAttribute()
+        protected ValidateAttribute()
         {
         }
 
-        protected IntegrateAttribute(string errorMessage)
+        protected ValidateAttribute(string errorMessage)
         {
             ErrorMessage = errorMessage;
         }

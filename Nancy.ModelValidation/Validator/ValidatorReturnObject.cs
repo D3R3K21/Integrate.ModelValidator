@@ -1,4 +1,4 @@
-﻿namespace Integrate.ModelValidator
+﻿namespace Nancy.ModelValidation
 {
     public class ValidatorReturnObject
     {

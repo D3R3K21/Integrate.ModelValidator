@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Integrate.ModelValidator
+namespace Nancy.ModelValidation
 {
-    public abstract class BaseIntegrateModel
+    public abstract class NancyValidatorModel
     {
         public Type DerivedType { get; set; }
 
-        protected BaseIntegrateModel()
+        protected NancyValidatorModel()
         {
         }
         public static T Bind<T>(T obj) where T : class

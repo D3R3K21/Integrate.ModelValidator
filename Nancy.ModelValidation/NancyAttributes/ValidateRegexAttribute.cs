@@ -2,10 +2,9 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Integrate.ModelValidator
+namespace Nancy.ModelValidation
 {
-    [Serializable]
-    public class ValidateRegexAttribute : IntegrateAttribute
+    public class ValidateRegexAttribute : ValidateAttribute
     {
         private readonly Regex _regex;
         private ValidateRegexAttribute()

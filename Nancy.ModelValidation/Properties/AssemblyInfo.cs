@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Integrate.ModelValidator")]
+[assembly: AssemblyTitle("Nancy.ModelValidation")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Integrate.ModelValidator")]
+[assembly: AssemblyProduct("Nancy.ModelValidation")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7781b9b7-4721-4b12-8c29-e97e3c84d7f1")]
+[assembly: Guid("cfdb03a8-548f-40ef-a1c5-e36f5cadee53")]
 
 // Version information for an assembly consists of the following four values:
 //

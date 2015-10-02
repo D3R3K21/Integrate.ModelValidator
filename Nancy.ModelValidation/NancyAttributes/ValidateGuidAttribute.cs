@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Integrate.ModelValidator
+namespace Nancy.ModelValidation
 {
-    [Serializable]
-    public class ValidateGuidAttribute : IntegrateAttribute
+    public class ValidateGuidAttribute : ValidateAttribute
     {
 
         private ValidateGuidAttribute()
