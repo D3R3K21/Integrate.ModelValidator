@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Integrate.Nancy.Modules;
 using Nancy.ModelBinding;
 
 namespace Nancy.ModelValidation
@@ -120,7 +121,7 @@ namespace Nancy.ModelValidation
             return returnList;
         }
 
-        public static dynamic BindModel(this NancyModule mod, NancyValidatorModel model)
+        public static dynamic BindModel(this IntegrateModule mod, NancyValidatorModel model)
         {
             var modelType = model.GetType();
             var mapping = _bindingMappings[modelType];

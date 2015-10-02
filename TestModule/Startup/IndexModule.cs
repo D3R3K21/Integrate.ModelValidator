@@ -1,16 +1,20 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Linq;
+using Integrate.Cache;
+using Integrate.Nancy.Authentication;
+using Integrate.Nancy.Modules;
+using Integrate.Storage;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.ModelValidation;
 
 namespace TestModule
 {
-    public class IndexModule : NancyModule
+    public class IndexModule : IntegrateModule
     {
 
         public IndexModule()
-            : base("/")
         {
             Before += ctx =>
             {
