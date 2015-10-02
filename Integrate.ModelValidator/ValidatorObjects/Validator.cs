@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Nancy;
 using Nancy.ModelBinding;
 
 namespace Integrate.ModelValidator
@@ -69,7 +70,7 @@ namespace Integrate.ModelValidator
         {
             var input = Expression.Parameter(typeof(Type), "input");
             var methodInfo = GenericMethodInfo;
-            var result = Expression.Lambda<Func<object, BaseIntegrateModel>>(Expression.Call(Expression.Convert(input, typeof(Type)), methodInfo), input);
+            var result = Expression.Lambda<Func<object, BaseIntegrateModel>>(Expression.Call(null, methodInfo),input);
             var final = result.Compile();
             Console.Out.WriteLine();
         }
